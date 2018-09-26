@@ -6,8 +6,4 @@ eureka:
       defaultZone: http://localhost:8761/eureka/
 spring:
   application:
-    name: zuul-client
-zuul:
-  ignoredServices: '*'
-  routes:
-    microservice-provider-user: /ecom/**
+    name: api-gateway		    
