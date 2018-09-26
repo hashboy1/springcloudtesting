@@ -13,12 +13,12 @@ import com.netflix.discovery.EurekaClient;
 @SpringBootApplication
 @EnableEurekaClient
 @RestController
-public class ServiceApp1Application {
+public class ServiceAppApplication {
     @Autowired
     private EurekaClient client;
 
     public static void main(String[] args) {
-        SpringApplication.run(ServiceApp1Application.class, args);
+        SpringApplication.run(ServiceAppApplication.class, args);
     }
 
     @RequestMapping("/info")

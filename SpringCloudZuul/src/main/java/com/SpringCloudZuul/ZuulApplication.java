@@ -21,7 +21,6 @@ public class ZuulApplication {
 zuul:
   routes:
     SERVICEAPP1: /SERVICEAPP1/**	
-    
             */
       }
 
