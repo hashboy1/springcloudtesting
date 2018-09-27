@@ -29,6 +29,6 @@ public class ServiceAppApplication {
     @RequestMapping("/test")
     public String testClient() {
         InstanceInfo instanceInfo = client.getNextServerFromEureka("SERVICEAPP1", false);
-        return instanceInfo.getHomePageUrl();
+        return "instance0"+instanceInfo.getHomePageUrl();
     }
 }
