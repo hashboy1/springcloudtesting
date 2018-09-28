@@ -1,10 +1,12 @@
 package com.SpringCloudEurekaClient.model;
 
+import java.io.Serializable;
+
 /**
  * User映射类
 
  */
-public class Employee {
+public class Employee implements Serializable {
 	
 	
 	private Integer Id;

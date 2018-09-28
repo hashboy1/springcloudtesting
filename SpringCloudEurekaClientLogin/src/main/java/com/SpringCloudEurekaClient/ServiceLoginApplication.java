@@ -58,12 +58,14 @@ public class ServiceLoginApplication {
     */
     @CrossOrigin
     @RequestMapping(value = "/findEmployeeByID")
-    @HystrixCommand(fallbackMethod = "testConsumerError")
+    //@HystrixCommand(fallbackMethod = "testConsumerError")
     public String testClient(@RequestParam(value="Id",required=false) String ID) {
     	
     	System.out.println("id:"+ID);
+    	/*
     	String a=null;
     	System.out.println(a.length());
+        */
         if (ID == null|| ID.equals("")) return "please input the employee ID";	
     	
     	Employee ee=es.selectUserById(ID);
