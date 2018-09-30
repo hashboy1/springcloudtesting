@@ -1,5 +1,13 @@
 package com.SpringCloudEurekaClient.model;
 
+import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.context.annotation.PropertySource;
+import org.springframework.stereotype.Component;
+
+@Component
+@ConfigurationProperties(prefix="personal")
+@PropertySource("classpath:personaldefine.properties")
+
 public class Person {
 
 	 private long id;

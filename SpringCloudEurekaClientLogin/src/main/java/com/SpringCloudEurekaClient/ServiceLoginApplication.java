@@ -20,7 +20,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.SpringCloudEurekaClient.cache.MybatisRedisCache;
 import com.SpringCloudEurekaClient.model.Employee;
+import com.SpringCloudEurekaClient.model.Person;
 import com.SpringCloudEurekaClient.service.EmployeeService;
 import com.netflix.appinfo.InstanceInfo;
 import com.netflix.discovery.EurekaClient;
@@ -35,6 +37,8 @@ import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 public class ServiceLoginApplication {
     @Autowired
     private EurekaClient client;
+    @Autowired
+    private Person pr;
     
     @Autowired
 	EmployeeService es;
@@ -58,7 +62,7 @@ public class ServiceLoginApplication {
     */
     @CrossOrigin
     @RequestMapping(value = "/findEmployeeByID")
-    //@HystrixCommand(fallbackMethod = "testConsumerError")
+    @HystrixCommand(fallbackMethod = "testConsumerError")
     public String testClient(@RequestParam(value="Id",required=false) String ID) {
     	
     	System.out.println("id:"+ID);
@@ -69,7 +73,9 @@ public class ServiceLoginApplication {
         if (ID == null|| ID.equals("")) return "please input the employee ID";	
     	
     	Employee ee=es.selectUserById(ID);
-    	return ee.toString();
+    	if (ee==null) return "The employee ID doesn't exist"; 
+    	System.out.println("cache size:"+MybatisRedisCache.getCacheSize());
+    	return ee.toString()+"+"+pr.toString();
     }
     
     
@@ -77,7 +83,7 @@ public class ServiceLoginApplication {
     public String testConsumerError(String ID)
     {
     	//System.out.println("Service isn't available");
-    	return "Service isn't available";
+    	return "Service is unavailable";
     	
     }
     

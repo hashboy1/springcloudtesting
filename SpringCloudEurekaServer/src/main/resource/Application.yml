@@ -5,10 +5,16 @@ eureka:
     hostname: localhost
   client:
     # 以下两项一定要是false，表明自己是服务器，而不需要从其他主机发现服务
-    registerWithEureka: false
-    fetchRegistry: false
+    #registerWithEureka: true
+    #fetchRegistry: true
     serviceUrl:
-      defaultZone: http://${eureka.instance.hostname}:${server.port}/eureka/
+      defaultZone: http://${eureka.instance.hostname}:8762/eureka/
+      #defaultZone: http://${eureka.instance.hostname}:${server.port}/eureka/,http://${eureka.instance.hostname}:8762/eureka/
   server:
-    waitTimeInMsWhenSyncEmpty: 0
-    enableSelfPreservation: false
+    enableSelfPreservation： false
+    #waitTimeInMsWhenSyncEmpty: 0
+    #lease-renewal-interval-in-seconds: 5
+    #lease-expiration-duration-in-seconds: 5
+spring:
+   application:
+          name: eurekaServer

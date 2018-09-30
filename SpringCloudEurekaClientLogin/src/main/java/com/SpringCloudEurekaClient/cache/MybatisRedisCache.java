@@ -1,4 +1,4 @@
-package com.SpringCloudEurekaClient;
+package com.SpringCloudEurekaClient.cache;
  
 import java.util.concurrent.locks.ReadWriteLock;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
@@ -20,11 +20,8 @@ public class MybatisRedisCache implements Cache {
    
 	private static JedisConnectionFactory jedisConnectionFactory;
 	//private final static Logger logger = LoggerFactory.getLogger(HomeController.class);
- 
-    private  String id;
- 
+    private String id;
     private final ReadWriteLock readWriteLock = new ReentrantReadWriteLock();
- 
     public MybatisRedisCache(final String id) {
     	System.out.println("====================MybatisRedisCache=====================");
         if (id == null) {
@@ -49,6 +46,24 @@ public class MybatisRedisCache implements Cache {
             }
         }
     }
+    
+   
+    public static void clearCache() {
+    	System.out.println("====================clear=====================");
+        RedisConnection connection = null;
+        try {
+            connection = jedisConnectionFactory.getConnection();
+            connection.flushDb();
+            connection.flushAll();
+        } catch (JedisConnectionException e) {
+            e.printStackTrace();
+        } finally {
+            if (connection != null) {
+                connection.close();
+            }
+        }
+    }
+   
  
     @Override
     public String getId() {
@@ -58,7 +73,8 @@ public class MybatisRedisCache implements Cache {
  
     @Override
     public Object getObject(Object key) {
-    	System.out.println("====================getObject====================="+key.toString());
+    	System.out.println("====================getObject=====================");
+    	System.out.println("key:"+key.toString()); 
         Object result = null;
         RedisConnection connection = null;
         try {
@@ -97,12 +113,31 @@ public class MybatisRedisCache implements Cache {
         }
         return result;
     }
+    
+    
+    public static int getCacheSize() {
+    	System.out.println("====================getSize=====================");
+        int result = 0;
+        RedisConnection connection = null;
+        try {
+            connection = jedisConnectionFactory.getConnection();
+            result = Integer.valueOf(connection.dbSize().toString());
+        } catch (JedisConnectionException e) {
+            e.printStackTrace();
+        } finally {
+            if (connection != null) {
+                connection.close();
+            }
+        }
+        return result;
+    }
+ 
+    
  
     @Override
     public void putObject(Object key, Object value) {
     	System.out.println("====================putObject=====================");
-    	System.out.println("key:"+key.toString()+",value:"+value.toString());
-    	
+    	System.out.println("key:"+key.toString()+",value:"+value.toString());  	
         RedisConnection connection = null;
         try {
             connection = jedisConnectionFactory.getConnection();
