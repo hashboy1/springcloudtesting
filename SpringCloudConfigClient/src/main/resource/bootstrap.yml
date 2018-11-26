@@ -1,5 +1,3 @@
-server:
-   port: 8041
 spring:
   application:
     name: config-server # 对应config-server所获取的配置文件的{application}
@@ -8,7 +6,3 @@ spring:
       uri: http://localhost:8040/
       profile: dev # 指定profile，对应config-server所获取的配置文件中的{profile}
       label: master # 指定git仓库的分支，对应config-server所获取的配置文件的{label}
-mybatis:
-    mapper-locations: classpath:/mapper/*.xml
-    configLocation: classpath:mybatis.xml
-    type-aliases-package: com.SpringCloudEurekaClient.model
