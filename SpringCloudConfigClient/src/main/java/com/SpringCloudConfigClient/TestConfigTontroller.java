@@ -9,8 +9,9 @@ import org.springframework.web.bind.annotation.RestController;
 @RefreshScope
 public class TestConfigTontroller {
     //这个@Value会根据配置的配置中心地址找到git仓库对应的配置和本地服务的配置文件
-    @Value("${profile}")
+    @Value("${datasource.password}")
     private String configValue;
+    
     @RequestMapping("testConfig")
     public String test(){
         return "读取到配置中心："+configValue;
