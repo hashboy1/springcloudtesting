@@ -10,17 +10,16 @@ eureka:
 spring:
    application:
           name: ConfigServer
-   profiles:
-       active: subversion
    cloud:
     config:
-      label: src
+      label: master
       server:
-          svn:
-           uri: https://192.168.0.160/svn/caoj_KT
-           username: cuiyong
-           password: 781121
-           default-label:
+          git:
+           uri: https://github.com/hashboy1/springcloudtesting
+           search-paths: config   
+           username: angel_ghost1121@163.com
+           password: Zch06atc03
+          
 logging:  
   levels:  
     org.springframework.boot.env.PropertySourcesLoader: TRACE  
