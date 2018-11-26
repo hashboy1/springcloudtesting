@@ -1,4 +1,4 @@
-package com.SpringCloudConfigClient;
+package com.SpringCloudConfigClient.Service;
 
 import java.util.List;
 

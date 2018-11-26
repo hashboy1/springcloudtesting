@@ -1,4 +1,4 @@
-package com.SpringCloudConfigClient;
+package com.SpringCloudConfigClient.Util;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;

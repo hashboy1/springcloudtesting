@@ -1,4 +1,4 @@
-package com.SpringCloudConfigClient;
+package com.SpringCloudConfigClient.Controller;
 
 import java.net.UnknownHostException;
 import java.util.Iterator;
@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.SpringCloudConfigClient.Model.Employee;
+import com.SpringCloudConfigClient.Service.EmployeeService;
 
 
 @RestController
@@ -51,8 +52,9 @@ public class TestConfigTontroller {
         */
         if (ID == null|| ID.equals("")) return "please input the employee ID";	
     	
-    	//Employee ee=es.selectUserById(ID);
+    	Employee ee=es.selectUserById(ID);
         
+    	/*
         DataSource dataSource = ApplicationContextProvider.getBean(DataSource.class);
         // 查看配置数据源信息
         System.out.println(dataSource);
@@ -68,12 +70,12 @@ public class TestConfigTontroller {
         	 ee=(String) it.next();
         	 System.out.println(ee);
          }
-        
-    	//if (ee==null) return "The employee ID doesn't exist"; 
+        */
+    	if (ee==null) return "The employee ID doesn't exist"; 
     
     	
     	
-    	return ee;
+    	return ee.toString();
     }
     
     
