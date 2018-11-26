@@ -12,15 +12,17 @@
      <parent>  
         <groupId>org.springframework.boot</groupId>  
         <artifactId>spring-boot-starter-parent</artifactId>  
-        <version>1.5.7.RELEASE</version>  
+         <version>1.5.7.RELEASE</version>   
+        <!--  <version>2.0.6.RELEASE</version>  -->
    </parent>
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <fastjson.version>1.2.17</fastjson.version>
   </properties>
   
-  
-        <!-- 设定主仓库，按设定顺序进行查找。 -->
+  <!--  设定主仓库，按设定顺序进行查找 -->
+      
 	<repositories>
 		<repository>
 			<id>SpringCLoud</id>
@@ -29,7 +31,7 @@
 		</repository>
 	</repositories>
 
-	<!-- 设定插件仓库 -->
+	<!-- 设定插件仓库   -->
 	<pluginRepositories>
 		<pluginRepository>
 			<id>SpringCLoud</id>
@@ -37,7 +39,7 @@
 			<url>http://maven.aliyun.com/nexus/content/groups/public</url>
 		</pluginRepository>
 	</pluginRepositories>
-  
+
 
   <dependencies>
     <dependency>
@@ -64,7 +66,7 @@
 		<dependency>
 		  <groupId>com.alibaba</groupId>
 		  <artifactId>fastjson</artifactId>
-		  <version>1.2.3</version>
+		  <version>${fastjson.version}</version>
 		</dependency>
         
          <!-- MyBatis -->
@@ -72,6 +74,12 @@
             <groupId>org.mybatis.spring.boot</groupId>
             <artifactId>mybatis-spring-boot-starter</artifactId>
             <version>1.1.1</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.springframework.boot</groupId>
+                    <artifactId>spring-boot-starter-logging</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
  
         <!-- MySql驱动 -->
@@ -127,10 +135,31 @@
             <plugin>  
                 <groupId>org.springframework.boot</groupId>  
                 <artifactId>spring-boot-maven-plugin</artifactId>  
+                    
             </plugin>  
-   
+            
+            <!-- docker的maven插件，官网：https://github.com/spotify/docker-maven-plugin -->
+            <plugin>
+                <groupId>com.spotify</groupId>
+                <artifactId>docker-maven-plugin</artifactId>
+                <version>1.0.0</version>
+                <configuration>
+                    <!-- 注意imageName一定要是符合正则[a-z0-9-_.]的，否则构建不会成功 -->
+                    <!-- 详见：https://github.com/spotify/docker-maven-plugin    Invalid repository name ... only [a-z0-9-_.] are allowed-->
+                    <imageName>eurekaloginclient</imageName>
+                    <baseImage>java</baseImage>
+                    <entryPoint>["java", "-jar", "/${project.build.finalName}.jar"]</entryPoint>
+                    <resources>
+                        <resource>
+                            <targetPath>/</targetPath>
+                            <directory>${project.build.directory}</directory>
+                            <include>${project.build.finalName}.jar</include>
+                        </resource>
+                    </resources>
+                </configuration>
+            </plugin>   
         </plugins>  
-    </build>  
+    </build>
   
   
 </project>

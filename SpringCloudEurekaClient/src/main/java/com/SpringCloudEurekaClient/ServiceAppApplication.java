@@ -1,5 +1,7 @@
 package com.SpringCloudEurekaClient;
 
+import java.time.LocalDateTime;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -23,7 +25,7 @@ public class ServiceAppApplication {
 
     @RequestMapping("/info")
     public String test() {
-        return "test";
+    	 return "Client1 test"+LocalDateTime.now();
     }
 
     @RequestMapping("/test")

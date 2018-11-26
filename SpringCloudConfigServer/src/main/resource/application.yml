@@ -1,0 +1,28 @@
+server:
+  port: 8040
+eureka:
+  instance:
+    prefer-ip-address: true
+    instance-id: ${spring.application.name}:${server.port}
+  client:
+    service-url:
+      defaultZone: http://192.168.0.160:8761/eureka
+spring:
+   application:
+          name: ConfigServer
+   profiles:
+       active: subversion
+   cloud:
+    config:
+      label: src
+      server:
+          svn:
+           uri: https://192.168.0.160/svn/caoj_KT
+           username: cuiyong
+           password: 781121
+           default-label:
+logging:  
+  levels:  
+    org.springframework.boot.env.PropertySourcesLoader: TRACE  
+    org.springframework.cloud.config.server: DEBUG 
+

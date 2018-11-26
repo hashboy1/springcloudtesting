@@ -1,12 +1,20 @@
 package com.SpringCloudEurekaClient;
 
+import java.net.Inet4Address;
+import java.net.InetAddress;
+import java.net.NetworkInterface;
+import java.net.UnknownHostException;
+import java.util.Enumeration;
 import java.util.List;
 
 import javax.validation.Valid;
 
+import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
 import org.springframework.cloud.netflix.hystrix.EnableHystrix;
 import org.springframework.validation.BindingResult;
@@ -34,6 +42,8 @@ import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 @EnableEurekaClient
 @EnableHystrix
 @RestController
+//@EnableAutoConfiguration(exclude={DataSourceAutoConfiguration.class})
+//@MapperScan(basePackages = {"com.SpringCloudEurekaClient.dao"})
 public class ServiceLoginApplication {
     @Autowired
     private EurekaClient client;
@@ -63,7 +73,7 @@ public class ServiceLoginApplication {
     @CrossOrigin
     @RequestMapping(value = "/findEmployeeByID")
     @HystrixCommand(fallbackMethod = "testConsumerError")
-    public String testClient(@RequestParam(value="Id",required=false) String ID) {
+    public String testClient(@RequestParam(value="Id",required=false) String ID) throws UnknownHostException {
     	
     	System.out.println("id:"+ID);
     	/*
@@ -75,7 +85,9 @@ public class ServiceLoginApplication {
     	Employee ee=es.selectUserById(ID);
     	if (ee==null) return "The employee ID doesn't exist"; 
     	System.out.println("cache size:"+MybatisRedisCache.getCacheSize());
-    	return ee.toString()+"+"+pr.toString();
+    	
+    	
+    	return ee.toString()+"+"+pr.toString()+"+ip:"+getHostIp();
     }
     
     
@@ -86,5 +98,28 @@ public class ServiceLoginApplication {
     	return "Service is unavailable";
     	
     }
+    
+    private static String getHostIp(){
+        try{
+            Enumeration<NetworkInterface> allNetInterfaces = NetworkInterface.getNetworkInterfaces();
+           while (allNetInterfaces.hasMoreElements()){
+                 NetworkInterface netInterface = (NetworkInterface) allNetInterfaces.nextElement();
+                Enumeration<InetAddress> addresses = netInterface.getInetAddresses();
+               while (addresses.hasMoreElements()){
+                    InetAddress ip = (InetAddress) addresses.nextElement();
+                   if (ip != null 
+                          && ip instanceof Inet4Address
+                          && !ip.isLoopbackAddress() //loopback地址即本机地址，IPv4的loopback范围是127.0.0.0 ~ 127.255.255.255
+                           && ip.getHostAddress().indexOf(":")==-1){
+                      System.out.println("本机的IP = " + ip.getHostAddress());
+                       return ip.getHostAddress();
+                    } 
+               }
+            }
+        }catch(Exception e){
+           e.printStackTrace();
+         }
+        return null;
+     }
     
 }

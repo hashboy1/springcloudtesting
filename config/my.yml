@@ -1,0 +1,5 @@
+datasource:
+    platform: mysql
+    username: vrkb
+    password: 3dms
+    driverClassName: com.mysql.jdbc.Driver
