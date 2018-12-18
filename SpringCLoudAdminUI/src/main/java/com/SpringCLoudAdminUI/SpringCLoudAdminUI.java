@@ -1,0 +1,22 @@
+package com.SpringCLoudAdminUI;
+
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
+
+
+
+import de.codecentric.boot.admin.config.EnableAdminServer;
+
+@SpringBootApplication
+@EnableDiscoveryClient
+@EnableAdminServer
+public class SpringCLoudAdminUI 
+{
+	 public static void main(String[] args) throws Exception {
+
+         SpringApplication.run(SpringCLoudAdminUI.class, args);
+         
+        
+    }
+}

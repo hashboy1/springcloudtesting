@@ -1,9 +1,9 @@
 server:
-  port: 8042
+  port: 8045
 eureka:
   client:
     serviceUrl:
       defaultZone: http://localhost:8761/eureka/
 spring:
   application:
-    name: api-gateway		    
+    name: SpringCloudAdmin	    
